@@ -83,10 +83,10 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-email = options[:email] || ENV['CLOUDFLARE_EMAIL']
-cloudflare_auth_key = options[:cloudflare_auth_key] || ENV['CLOUDFLARE_AUTH_KEY']
-api_key = options[:api_key] || ENV['CLOUDFLARE_API_KEY']
-domain_name = options[:domain_name] || ENV['CLOUDFLARE_DOMAIN_NAME']
+email = (options[:email] || ENV['CLOUDFLARE_EMAIL']).to_s
+cloudflare_auth_key = (options[:cloudflare_auth_key] || ENV['CLOUDFLARE_AUTH_KEY']).to_s
+api_key = (options[:api_key] || ENV['CLOUDFLARE_API_KEY']).to_s
+domain_name = (options[:domain_name] || ENV['CLOUDFLARE_DOMAIN_NAME']).to_s
 debug = options[:verbose]
 
 if debug
