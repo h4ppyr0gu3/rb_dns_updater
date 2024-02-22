@@ -67,7 +67,7 @@ OptionParser.new do |opts|
   end
 
   opts.on('--auth-key AUTH_KEY', 'Cloudflare Auth Key') do |key|
-    options[:cloudflare_auth_key] = key
+    options[:auth_key] = key
   end
 
   opts.on('--api-key API_KEY', 'Cloudflare API Key') do |key|
@@ -84,14 +84,14 @@ OptionParser.new do |opts|
 end.parse!
 
 email = (options[:email] || ENV['CLOUDFLARE_EMAIL']).to_s
-cloudflare_auth_key = (options[:cloudflare_auth_key] || ENV['CLOUDFLARE_AUTH_KEY']).to_s
+auth_key = (options[:auth_key] || ENV['CLOUDFLARE_AUTH_KEY']).to_s
 api_key = (options[:api_key] || ENV['CLOUDFLARE_API_KEY']).to_s
 domain_name = (options[:domain_name] || ENV['CLOUDFLARE_DOMAIN_NAME']).to_s
 debug = options[:verbose]
 
 if debug
   puts "Cloudflare Email: #{email}"
-  puts "Cloudflare Auth Key: #{cloudflare_auth_key}"
+  puts "Cloudflare Auth Key: #{auth_key}"
   puts "Cloudflare API Key: #{api_key}"
   puts "Cloudflare Domain Name: #{domain_name}"
 end
@@ -114,7 +114,7 @@ if current_ip_address == prev_ip_address
   puts 'IP address has not changed' if debug
 end
 
-zone_info = Requests.fetch_zone_info(cloudflare_auth_key)
+zone_info = Requests.fetch_zone_info(auth_key)
 
 zone_id = zone_info['result'].find { |zone| zone['name'] == domain_name }['id']
 
