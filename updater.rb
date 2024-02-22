@@ -13,7 +13,7 @@ class Requests
     def fetch_zone_info(cloudflare_auth_key)
       uri = URI('https://api.cloudflare.com/client/v4/zones')
       headers = {
-        'Authorization' => 'Bearer ' + cloudflare_auth_key,
+        'Authorization' => "Bearer #{cloudflare_auth_key}",
         'Content-Type' => 'application/json'
       }
       response = Net::HTTP.get_response(uri, headers)
@@ -101,7 +101,7 @@ puts "Current IP Address: #{current_ip_address}" if debug
 
 prev_ip_address = nil
 
-ip_address_file_path = ENV['HOME'] + '/.ip_address'
+ip_address_file_path = "#{ENV['HOME']}/.ip_address"
 puts "IP Address File Path: #{ip_address_file_path}" if debug
 
 if File.exist?(ip_address_file_path)
@@ -110,8 +110,8 @@ if File.exist?(ip_address_file_path)
 end
 
 if current_ip_address == prev_ip_address
-  exit 0
   puts 'IP address has not changed' if debug
+  exit 0
 end
 
 zone_info = Requests.fetch_zone_info(auth_key)
@@ -129,9 +129,8 @@ responses = a_records.each_with_object([]) do |record, arr|
   )
 end
 
-logger = Logger.new(ENV['HOME'] + '/.ip_address.log')
+logger = Logger.new("#{ENV['HOME']}/.ip_address.log")
 
-failures = []
 failures = responses.select { |res| res['success'] == false }
 
 failures.each do |failure|
